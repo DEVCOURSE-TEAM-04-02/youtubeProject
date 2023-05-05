@@ -1,32 +1,34 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
 	<meta charset="UTF-8"/>
-	<title>sample</title>
+	<title>YoutubeCrawling</title>
 
-	<link rel="stylesheet" href="./css/style.css">	
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">	
 </head>
 <body>
 	<header>
-		<a href="./index.html">YoutubeCrawling</a>
+		<a  id="a" href="{% url 'main:animal' %}">YoutubeCrawling</a>
 	</header>
 	<nav>
 	</nav>
     <div>
         <section id="section">
             <div class="box">
-                <img class="profile" src="./img/sample_pic.jpg">
+                <img class="profile" src="{{channel_info.channel_logo}}" alt="Image">
             </div>
             <div id="detail">
-                <p id="title">Gangaji</p>
-                <p id="descripton">@GangajiYotube 구독자 1만명 동영상 500개</p>
-                <p id="viewCount">조회수 3,000,000회</p>
+                <p id="title">{{ channel_info.channel_name }}</p>
+                <p id="descripton">구독자 수: {{ channel_info.subscribers_count }},  동영상 수: {{ channel_info.videos_count }}</p>
+				<p id="descripton">#{{ channel_info.category }}</p>
+                <p id="viewCount">총 조회 수: {{ channel_info.total_view }}</p>
             </div>
         </section>
     </div>
 	<div>
 		<section id="section">
-			<h2>그래프</h2>
+			<h2>🔎 [ <span style=color:#78A2CC>{{ channel_info.channel_name }}</span> ]</h2>
 			<input type="radio" id="tab-1" name="show" checked/>
 			<input type="radio" id="tab-2" name="show" />
 			<input type="radio" id="tab-3" name="show" />
@@ -37,33 +39,66 @@
 			</div>
 			<div class="content">
 				<div class="content-dis">
-					<p style="text-align: center; font-size: 20px;">일별</p>
-					<img src="./img/sample_graph.png" style="width: 100%;">
+					<img src="{% static graph_day_path %}" style="width: 100%;" alt="해당 유튜버의 일별 데이터가 존재하지 않습니다.">
 				</div>
 				<div class="content-dis">
-					<p style="text-align: center; font-size: 20px;">주별</p>
-					<img src="./img/sample_graph.png" style="width: 100%;">
+					<img src="{% static graph_week_path %}" style="width: 100%;" alt="해당 유튜버의 주별 데이터가 존재하지 않습니다.">
 				</div>
 				<div class="content-dis">
-					<p style="text-align: center; font-size: 20px;">월별</p>
-					<img src="./img/sample_graph.png" style="width: 100%;">
+					<img src="{% static graph_month_path %}" style="width: 100%;" alt="해당 유튜버의 월별 데이터가 존재하지 않습니다.">
 				</div>
 			</div>
 		</section>
 	</div>
 
-    <section id="section">
-		<h2>워드 클라우드</h2>
-		<img src="./img/sample_word.png" style="padding: 0px 50px; width: 25%;">
-		<img src="./img/sample_word.png" style="padding: 0px 50px; width: 25%;">
-		<img src="./img/sample_word.png" style="padding: 0px 50px; width: 25%;">
+	<section id="section">
+		<h2><span style=color:#78A2CC>{{ channel_info.channel_name }}</span> 채널 HOT 키워드</h2>
+		<div style="display: flex; flex-direction: row;">
+			<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px 0px;">
+			<h2> {{ channel_info.channel_name }}의 영상 제목 중 <br> 가장 많이 언급된 키워드</h2>
+			<img src="{% static 'img/wordcloud/'|add:channel_info.channel_id|stringformat:'s'|add:'_TITLE_WORDCLOUD.png' %}" alt="Wordcloud" class="img-fluid" style="width: 450px; height: 300px;">
+		</div>
+		<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px 0px;">
+			<h2> {{ channel_info.channel_name }}의 영상 댓글에서 <br> 가장 많이 언급된 키워드</h2>
+			<img src="{% static 'img/wordcloud/'|add:channel_info.channel_id|stringformat:'s'|add:'_COMMENT_WORDCLOUD.png' %}" alt="Wordcloud" class="img-fluid" style="width: 450px; height: 300px;">
+		</div>
+		<div style="flex: 1; padding: 0px 0px;">
+			<h2> {{ channel_info.channel_name }}의 영상 댓글 좋아요 Top 3</h2>
+			<ol style="display: flex; flex-direction: column; align-items: stretch;">
+				{% for comment in top_comments %}
+				<li>
+				<div class="comment-container">
+					<p class="comment-content">{{ comment.content }}</p>
+					<p class="comment-like-count">👍 {{ comment.like_count }}</p>
+				</div>
+			</li>
+			{% endfor %}
+			</ol>
+			</div>
+		</div>
 	</section>
-    <section id="section">
-		<h2>추천 동영상</h2>
-		<img src="./img/sample_hot.png" style="padding: 0px 30px; width: 20%;">
-		<img src="./img/sample_hot.png" style="padding: 0px 30px; width: 20%;">
-		<img src="./img/sample_hot.png" style="padding: 0px 30px; width: 20%;">
-		<img src="./img/sample_hot.png" style="padding: 0px 30px; width: 20%;">
+	<section id="section">
+		<h2><span style=color:#78A2CC>{{ channel_info.channel_name }}</span> 채널의 인기 동영상</h2>
+		<div class="video-grid">
+			{% for video in top_videos %}
+			<div class="video">
+				<a  id="a" href="{{ video.video_url }}" target="_blank">
+					<img src="{{ video.video_thumbnail }}" class="video-thumbnail">
+				</a>
+				<div class="video-info">
+					<a  id="a" href="{{ video.video_url }}" target="_blank" class="card-title stretched-link">
+						<h5 class="video-title">{{ video.video_title }}</h5>
+					</a>
+					<div class="video-stats">
+						<p>{{ video.view_count }} views</p>
+						<p>{{ video.like_count }} likes</p>
+						<p>{{ video.comment_count }} comments</p>
+					</div>
+					<small class="text-muted">{{ video.uploaded_date|date:"F d, Y" }}</small>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
 	</section>
 	<footer>
 		<p>&copy; 팀 프로젝트 1기 4팀 2조</p>

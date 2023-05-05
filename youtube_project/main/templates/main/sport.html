@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>YoutubeCrawling</title>
+
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">	
+	
+	<style>
+		a:link {
+			color: black;
+			text-decoration: none;
+		}
+		a:visited {
+			color: black;
+			text-decoration: none;
+		}
+		a:hover {
+			color: blue;
+			text-decoration: underline;
+		}
+	</style>
+<body>
+	<header>
+		<a  id="a" href="animal.html">YoutubeCrawling</a>
+	</header>
+	<nav>
+		<a id="c2" href="animal.html">동물</a>
+		<a id="c2" href="movie.html">영화</a>
+		<a id="c2" href="game.html">게임</a>
+        <a id="c1">스포츠</a>
+        <a id="c2" href="food.html">먹방</a>
+	</nav>
+	<div id="category">
+		<div id="parent">
+			<section class="child1">
+				<h2>영향력이 큰 채널 (총 구독자 순)</h2>
+				<ol>
+					{% for channel in sort_subscribers_channels %}
+					<li> <a  id="a" href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					{% endfor %}
+				</ol>
+			</section>
+			<section class="child2">
+				<h2>영향력이 큰 채널 (총 조회수 순)</h2>
+				<ol>
+					{% for channel in sort_viewCount_channels %}
+					<li> <a  id="a" href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					{% endfor %}
+				</ol>
+			</section>
+			<section class="child3">
+				<h2>영향력이 큰 채널 (총 좋아요 순)</h2>
+				<ol>
+					{% for channel in sort_like_channels %}
+					<li> <a  id="a" href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					{% endfor %}
+				</ol>
+			</section>
+		</div>
+		<div>
+			<section id="section">
+				<h2> 🔎 [ <span style=color:#78A2CC>#운동</span> 유튜버 ] </h2>
+				<div class="content">
+					<img src="{% static 'img/graph/SPORTS/SPORTS_CHANNEL_YOUTUBER_GRAPH.png' %}" style="width: 100%;">
+				</div>
+			</section>
+		</div>
+	
+		<section id="section">
+			<h2><span style=color:#78A2CC>#운동</span> 유튜브 HOT 키워드</h2>
+			<div  style="display: flex; justify-content: center;">
+				<p style="margin-right: 35%; font-size: 20px; margin-bottom: 0px;">제목 별 가장 핫한 키워드</p>
+				<p style="font-size: 20px; margin-bottom: 0px;">댓글 별 가장 핫한 키워드</p>
+			</div>
+			<div style="display: flex; justify-content: center;">
+				<img src="{% static 'img/wordcloud/SPORTS/SPORTS_CHANNEL_VIDEO_WORDCLOUD.png' %}" alt="워드 클라우드 이미지" style="width: 47%; height: 38%;">
+				<img src="{% static 'img/wordcloud/SPORTS/SPORTS_CHANNEL_COMMENT_WORDCLOUD.png' %}" alt="워드 클라우드 이미지" style="width: 47%; height: 38%;">
+			</div>
+		</section>
+		<section id="section">
+			<h2><span style=color:#78A2CC>#운동</span> 유튜브 인기 동영상</h2>
+			<div class="video-grid">
+				{% for video in hot_videos %}
+				<div class="video">
+					<a id="a" href="{{ video.video_url }}" target="_blank">
+						<img src="{{ video.video_thumbnail }}" class="video-thumbnail">
+					</a>
+					<div class="video-info">
+						<a  id="a" href="{{ video.video_url }}" target="_blank" class="card-title stretched-link">
+							<h5 class="video-title">{{ video.video_title }}</h5>
+						</a>
+						<div class="video-stats">
+							<p>{{ video.view_count }} views</p>
+							<p>{{ video.like_count }} likes</p>
+							<p>{{ video.comment_count }} comments</p>
+						</div>
+						<small class="text-muted">{{ video.uploaded_date|date:"F d, Y" }}</small>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</section>
+	</div>
+	<footer>
+		<p>&copy; 팀 프로젝트 1기 4팀 2조</p>
+	</footer>
+</body>
+</html>
