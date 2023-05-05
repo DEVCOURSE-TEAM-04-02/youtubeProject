@@ -7,22 +7,117 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from collections import Counter
 from konlpy.tag import Okt
+from django.db.models import Sum
 
 
 
 # Create your views here.
+
 def animal(request):
-    channels = TbChannelInfo.objects.order_by('-subscribers_count')[:5]
-    context = {'channels': channels}
-    return render(request,'main/animal.html', context)
+    channels1 = TbChannelInfo.objects.filter(category='ANIMAL').order_by('-subscribers_count')[:5]
+    channels2 = TbChannelInfo.objects.filter(category='ANIMAL').order_by('-total_view')[:5]
+
+    # 채널 이름을 리스트에 저장하여 템플릿으로 전달
+    context = {
+        'sort_subscribers_channels': channels1,
+        'sort_viewCount_channels': channels2
+    }
+
+    channels = TbVideoInfo.objects.values('channel').annotate(total_likes=Sum('like_count')).order_by('-total_likes')
+    channels3 = TbChannelInfo.objects.filter(category='ANIMAL', channel_id__in=[channel['channel'] for channel in channels])[:5]
+
+    context['sort_like_channels'] = channels3
+
+    hot = [channel.channel_id for channel in channels1]
+    hot_videos = TbVideoInfo.objects.filter(channel__in=hot).order_by('-view_count')[:4]
+    context['hot_videos'] = hot_videos
+
+    return render(request, 'main/animal.html', context)
+
 def movie(request):
-    return render(request,'main/movie.html')
+    channels1 = TbChannelInfo.objects.filter(category='MOVIE').order_by('-subscribers_count')[:5]
+    channels2 = TbChannelInfo.objects.filter(category='MOVIE').order_by('-total_view')[:5]
+
+    # 채널 이름을 리스트에 저장하여 템플릿으로 전달
+    context = {
+        'sort_subscribers_channels': channels1,
+        'sort_viewCount_channels': channels2
+    }
+    
+    channels = TbVideoInfo.objects.values('channel').annotate(total_likes=Sum('like_count')).order_by('-total_likes')
+    channels3 = TbChannelInfo.objects.filter(category='MOVIE', channel_id__in=[channel['channel'] for channel in channels])[:5]
+
+    context['sort_like_channels'] = channels3
+
+    hot = [channel.channel_id for channel in channels1]
+    hot_videos = TbVideoInfo.objects.filter(channel__in=hot).order_by('-view_count')[:4]
+    context['hot_videos'] = hot_videos
+
+    return render(request, 'main/movie.html', context)
 def game(request):
-    return render(request,'main/game.html')
+    channels1 = TbChannelInfo.objects.filter(category='GAME').order_by('-subscribers_count')[:5]
+    channels2 = TbChannelInfo.objects.filter(category='GAME').order_by('-total_view')[:5]
+
+    # 채널 이름을 리스트에 저장하여 템플릿으로 전달
+    context = {
+        'sort_subscribers_channels': channels1,
+        'sort_viewCount_channels': channels2
+    }
+
+    channels = TbVideoInfo.objects.values('channel').annotate(total_likes=Sum('like_count')).order_by('-total_likes')
+    channels3 = TbChannelInfo.objects.filter(category='GAME', channel_id__in=[channel['channel'] for channel in channels])[:5]
+
+    context['sort_like_channels'] = channels3
+
+    hot = [channel.channel_id for channel in channels1]
+    hot_videos = TbVideoInfo.objects.filter(channel__in=hot).order_by('-view_count')[:4]
+    context['hot_videos'] = hot_videos
+    
+    return render(request, 'main/game.html', context)
+
 def sport(request):
-    return render(request,'main/sport.html')
+    channels1 = TbChannelInfo.objects.filter(category='SPORTS').order_by('-subscribers_count')[:5]
+    channels2 = TbChannelInfo.objects.filter(category='SPORTS').order_by('-total_view')[:5]
+
+    # 채널 이름을 리스트에 저장하여 템플릿으로 전달
+    context = {
+        'sort_subscribers_channels': channels1,
+        'sort_viewCount_channels': channels2
+    }
+
+    channels = TbVideoInfo.objects.values('channel').annotate(total_likes=Sum('like_count')).order_by('-total_likes')
+    channels3 = TbChannelInfo.objects.filter(category='SPORTS', channel_id__in=[channel['channel'] for channel in channels])[:5]
+
+    context['sort_like_channels'] = channels3
+
+    hot = [channel.channel_id for channel in channels1]
+    hot_videos = TbVideoInfo.objects.filter(channel__in=hot).order_by('-view_count')[:4]
+    context['hot_videos'] = hot_videos
+    
+    return render(request, 'main/sport.html', context)
+
 def food(request):
-    return render(request,'main/food.html')
+    channels1 = TbChannelInfo.objects.filter(category='MUKBANG').order_by('-subscribers_count')[:5]
+    channels2 = TbChannelInfo.objects.filter(category='MUKBANG').order_by('-total_view')[:5]
+
+    # 채널 이름을 리스트에 저장하여 템플릿으로 전달
+    context = {
+        'sort_subscribers_channels': channels1,
+        'sort_viewCount_channels': channels2
+    }
+
+    channels = TbVideoInfo.objects.values('channel').annotate(total_likes=Sum('like_count')).order_by('-total_likes')
+    channels3 = TbChannelInfo.objects.filter(category='MUKBANG', channel_id__in=[channel['channel'] for channel in channels])[:5]
+
+    context['sort_like_channels'] = channels3
+
+    hot = [channel.channel_id for channel in channels1]
+    hot_videos = TbVideoInfo.objects.filter(channel__in=hot).order_by('-view_count')[:4]
+    context['hot_videos'] = hot_videos
+    
+    return render(request, 'main/food.html', context)
+
+
 def detail(request, channel_id):
     #채널ID를 통해 가지고 온 채널 정보 
     channel_info = get_object_or_404(TbChannelInfo, pk=channel_id)
@@ -31,6 +126,7 @@ def detail(request, channel_id):
     #채널ID를 통해 조회한 비디오 중 조회 수가 높은 것 네 개
     top_videos = TbVideoInfo.objects.filter(channel_id=channel_id).order_by('-view_count')[:4]
     
+    '''
     #wordcloud 생성
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -41,11 +137,11 @@ def detail(request, channel_id):
         query_result = cursor.fetchall()
         
     img_path = get_channel_wordCloud(query_result, channel_id)    
-    
+    '''
     context = {'channel_info': channel_info, 'top_comments': top_comments, 'top_videos': top_videos}
     return render(request, 'main/detail.html', context)
 
-
+'''
 def get_channel_wordCloud(tuples, channel_id):
     """
     Make WordCloud
@@ -85,3 +181,4 @@ def get_channel_wordCloud(tuples, channel_id):
         return None
     
     return img_path
+    '''

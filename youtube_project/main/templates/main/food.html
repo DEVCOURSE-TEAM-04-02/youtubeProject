@@ -6,6 +6,21 @@
 	<title>sample</title>
 
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">	
+
+	<style>
+		a:link {
+			color: black;
+			text-decoration: none;
+		}
+		a:visited {
+			color: black;
+			text-decoration: none;
+		}
+		a:hover {
+			color: blue;
+			text-decoration: underline;
+		}
+	</style>
 </head>
 <body>
 	<header>
@@ -22,48 +37,27 @@
 		<div id="parent">
 			<section class="child1">
 				<h2>영향력이 큰 채널 (총 구독자 순)</h2>
-				<ul>
-					<p>1</p>
-					<li><a id="a" href="detail.html">쿼리문1</a></li>
-					<p>2</p>
-					<li><a id="a" href="detail.html">쿼리문2</a></li>
-					<p>3</p>
-					<li><a id="a" href="detail.html">쿼리문3</a></li>
-					<p>4</p>
-					<li><a id="a" href="detail.html">쿼리문4</a></li>
-					<p>5</p>
-					<li><a id="a" href="detail.html">쿼리문5</a></li>
-				</ul>
+				<ol>
+					{% for channel in sort_subscribers_channels %}
+					<li> <a href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					{% endfor %}
+				</ol>
 			</section>
 			<section class="child2">
 				<h2>영향력이 큰 채널 (총 조회수 순)</h2>
-				<ul>
-					<p>1</p>
-					<li><a id="a" href="detail.html">쿼리문1</a></li>
-					<p>2</p>
-					<li><a id="a" href="detail.html">쿼리문2</a></li>
-					<p>3</p>
-					<li><a id="a" href="detail.html">쿼리문3</a></li>
-					<p>4</p>
-					<li><a id="a" href="detail.html">쿼리문4</a></li>
-					<p>5</p>
-					<li><a id="a" href="detail.html">쿼리문5</a></li>
-				</ul>
+				<ol>
+					{% for channel in sort_viewCount_channels %}
+					<li> <a href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					{% endfor %}
+				</ol>
 			</section>
 			<section class="child3">
 				<h2>영향력이 큰 채널 (총 좋아요 순)</h2>
-				<ul>
-					<p>1</p>
-					<li><a id="a" href="detail.html">쿼리문1</a></li>
-					<p>2</p>
-					<li><a id="a" href="detail.html">쿼리문2</a></li>
-					<p>3</p>
-					<li><a id="a" href="detail.html">쿼리문3</a></li>
-					<p>4</p>
-					<li><a id="a" href="detail.html">쿼리문4</a></li>
-					<p>5</p>
-					<li><a id="a" href="detail.html">쿼리문5</a></li>
-				</ul>
+				<ol>
+					{% for channel in sort_like_channels %}
+					<li> <a href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					{% endfor %}
+				</ol>
 			</section>
 		</div>
 		<div>
@@ -79,16 +73,13 @@
 				</div>
 				<div class="content">
 					<div class="content-dis">
-						<p style="text-align: center; font-size: 20px;">일별</p>
-						<img src="{% static 'img/sample_graph.png' %}" style="width: 100%;">
+						<img src="{% static 'img/graph/MUKBANG/MUKBANG_CHANNEL_YOUTUBER_GRAPH.png' %}" style="width: 100%;">
 					</div>
 					<div class="content-dis">
-						<p style="text-align: center; font-size: 20px;">주별</p>
-						<img src="{% static 'img/sample_graph.png' %}" style="width: 100%;">
+						<img src="{% static 'img/graph/MUKBANG/MUKBANG_CHANNEL_YOUTUBER_GRAPH.png' %}" style="width: 100%;">
 					</div>
 					<div class="content-dis">
-						<p style="text-align: center; font-size: 20px;">월별</p>
-						<img src="{% static 'img/sample_graph.png' %}" style="width: 100%;">
+						<img src="{% static 'img/graph/MUKBANG/MUKBANG_CHANNEL_YOUTUBER_GRAPH.png' %}" style="width: 100%;">
 					</div>
 				</div>
 			</section>
@@ -96,16 +87,37 @@
 	
 		<section id="section">
 			<h2>워드 클라우드</h2>
-			<img src="{% static 'img/sample_word.png' %}" style="padding: 0px 50px; width: 25%;">
-			<img src="{% static 'img/sample_word.png' %}" style="padding: 0px 50px; width: 25%;">
-			<img src="{% static 'img/sample_word.png' %}" style="padding: 0px 50px; width: 25%;">
+			<div  style="display: flex; justify-content: center;">
+				<p style="margin-right: 35%; font-size: 20px; margin-bottom: 0px;">제목 별 가장 핫한 키워드</p>
+				<p style="font-size: 20px; margin-bottom: 0px;">댓글 별 가장 핫한 키워드</p>
+			</div>
+			<div style="display: flex; justify-content: center;">
+				<img src="{% static 'img/wordcloud/MUKBANG/MUKBANG_CHANNEL_VIDEO_WORDCLOUD.png' %}" alt="워드 클라우드 이미지" style="width: 47%; height: 38%;">
+				<img src="{% static 'img/wordcloud/MUKBANG/MUKBANG_CHANNEL_COMMENT_WORDCLOUD.png' %}" alt="워드 클라우드 이미지" style="width: 47%; height: 38%;">
+			</div>
 		</section>
 		<section id="section">
 			<h2>인기 동영상</h2>
-			<img src="{% static 'img/sample_hot.png' %}" style="padding: 0px 30px; width: 20%;">
-			<img src="{% static 'img/sample_hot.png' %}" style="padding: 0px 30px; width: 20%;">
-			<img src="{% static 'img/sample_hot.png' %}" style="padding: 0px 30px; width: 20%;">
-			<img src="{% static 'img/sample_hot.png' %}" style="padding: 0px 30px; width: 20%;">
+			<div class="video-grid">
+				{% for video in hot_videos %}
+				<div class="video">
+					<a href="{{ video.video_url }}" target="_blank">
+						<img src="{{ video.video_thumbnail }}" class="video-thumbnail">
+					</a>
+					<div class="video-info">
+						<a href="{{ video.video_url }}" target="_blank" class="card-title stretched-link">
+							<h5 class="video-title">{{ video.video_title }}</h5>
+						</a>
+						<div class="video-stats">
+							<p>{{ video.view_count }} views</p>
+							<p>{{ video.like_count }} likes</p>
+							<p>{{ video.comment_count }} comments</p>
+						</div>
+						<small class="text-muted">{{ video.uploaded_date|date:"F d, Y" }}</small>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
 		</section>
 	</div>
 	<footer>
