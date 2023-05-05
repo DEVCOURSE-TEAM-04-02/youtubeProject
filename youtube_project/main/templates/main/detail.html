@@ -39,15 +39,12 @@
 			</div>
 			<div class="content">
 				<div class="content-dis">
-					<p style="text-align: center; font-size: 20px;">일별</p>
+					<img src="{% static graph_day_path %}" style="width: 100%;">
+				</div>
+				<div class="content-dis">
 					<img src="{% static 'img/sample_graph.png' %}" style="width: 100%;">
 				</div>
 				<div class="content-dis">
-					<p style="text-align: center; font-size: 20px;">주별</p>
-					<img src="{% static 'img/sample_graph.png' %}" style="width: 100%;">
-				</div>
-				<div class="content-dis">
-					<p style="text-align: center; font-size: 20px;">월별</p>
 					<img src="{% static 'img/sample_graph.png' %}" style="width: 100%;">
 				</div>
 			</div>
@@ -59,7 +56,7 @@
 		<div style="display: flex; flex-direction: row;">
 			<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px 0px;">
 			<h2> {{ channel_info.channel_name }}의 영상 제목 중 <br> 가장 많이 언급된 키워드</h2>
-			<img src="{% static title_wordcloud_path %}" alt="워드 클라우드 이미지" style="width: 100%; max-width: 600px;">
+			<img src="{% static title_wordcloud_path %}" style="width: 100%; max-width: 600px;">
 		</div>
 		<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px 0px;">
 			<h2> {{ channel_info.channel_name }}의 영상 댓글에서 <br> 가장 많이 언급된 키워드</h2>

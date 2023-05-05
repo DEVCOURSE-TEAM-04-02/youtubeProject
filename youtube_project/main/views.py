@@ -129,7 +129,8 @@ def detail(request, channel_id):
     comment_wordcloud_path = 'img/wordcloud/{}_COMMENT_WORDCLOUD.png'.format(channel_id)
     title_wordcloud_path = 'img/wordcloud/{}_TITLE_WORDCLOUD.png'.format(channel_id)
     
-    '''
+    graph_day_path = 'img/graph/{}_VIDEO_GRAPH_DATE.png'.format(channel_id)
+    
     #wordcloud 생성
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -139,12 +140,12 @@ def detail(request, channel_id):
         """, [channel_id])
         query_result = cursor.fetchall()
         
-    img_path = get_channel_wordCloud(query_result, channel_id)    
-    '''
-    context = {'channel_info': channel_info, 'top_comments': top_comments, 'top_videos': top_videos, 'title_wordcloud_path':title_wordcloud_path, 'comment_wordcloud_path':comment_wordcloud_path}
+    #title_wordcloud_path = get_channel_wordCloud(query_result, channel_id)    
+    
+    context = {'channel_info': channel_info, 'top_comments': top_comments, 'top_videos': top_videos, 'title_wordcloud_path':title_wordcloud_path, 'comment_wordcloud_path':comment_wordcloud_path, 'graph_day_path': graph_day_path}
     return render(request, 'main/detail.html', context)
 
-'''
+
 def get_channel_wordCloud(tuples, channel_id):
     """
     Make WordCloud
@@ -159,7 +160,8 @@ def get_channel_wordCloud(tuples, channel_id):
     nouns = okt.nouns(longStr)
     counter = Counter(nouns)
     
-    font_path = os.path.join(settings.BASE_DIR, 'static', 'css', 'a꽃피는봄.ttf')
+    # font_path = os.path.join(settings.BASE_DIR, 'static', 'css', 'a꽃피는봄.ttf')
+    font_path = 'main/static/css/Jua/Jua-Regular.ttf'
     wordcloud = WordCloud(
         font_path = font_path,
         width=800,
@@ -173,15 +175,13 @@ def get_channel_wordCloud(tuples, channel_id):
     img = wordcloud.generate_from_frequencies(counter)
     
     # 이미지 저장
-    img_path = os.path.join(settings.BASE_DIR, 'wordcloud', f'{channel_id}_TITLE_WORDCLOUD.png')
-    try:
-        plt.figure(figsize=(8,6))
-        plt.axis('off')
-        plt.imshow(img)
-        plt.savefig(img_path)
-        plt.close()
-    except:
-        return None
+    # img_path = os.path.join(settings.BASE_DIR, 'wordcloud', f'{channel_id}_TITLE_WORDCLOUD.png')
+    img_path = f"main/static/img/wordcloud/{channel_id}_TITLE_WORDCLOUD.png"
+
+    plt.figure(figsize=(8,6))
+    plt.axis('off')
+    plt.imshow(img)
+    plt.savefig(img_path)
+    plt.close()
     
     return img_path
-    '''
