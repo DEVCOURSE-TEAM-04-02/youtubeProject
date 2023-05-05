@@ -3,13 +3,13 @@
 <html>
 <head>
 	<meta charset="UTF-8"/>
-	<title>sample</title>
+	<title>YoutubeCrawling</title>
 
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">	
 </head>
 <body>
 	<header>
-		<a href="{% url 'main:animal' %}">YoutubeCrawling</a>
+		<a  id="a" href="{% url 'main:animal' %}">YoutubeCrawling</a>
 	</header>
 	<nav>
 	</nav>
@@ -57,39 +57,39 @@
 	<section id="section">
 		<h2>워드 클라우드</h2>
 		<div style="display: flex; flex-direction: row;">
-			<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px 0px;">
-				<h3> {{ channel_info.channel_name }}의 영상 제목 중 가장 많이 언급된 키워드</h3>
-				<img src="{% static 'img/sample_word.png' %}" style="padding: 0px 50px; width: 90%;">
-			</div>
-			<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px 0px;">
-				<h3> {{ channel_info.channel_name }}의 영상 댓글에서 가장 많이 언급된 키워드</h3>
-				<img src="{% static 'img/sample_word.png' %}" style="padding: 0px 50px; width: 90%;">
-			</div>
-			<div style="flex: 1; padding: 0px 0px;">
-				<h2> {{ channel_info.channel_name }}의 영상 댓글 좋아요 Top 3</h2>
-				<ol style="display: flex; flex-direction: column; align-items: stretch;">
+			<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px 0px;">
+			<h2> {{ channel_info.channel_name }}의 영상 제목 중 <br> 가장 많이 언급된 키워드</h2>
+			<img src="{% static title_wordcloud_path %}" alt="워드 클라우드 이미지" style="width: 100%; max-width: 600px;">
+		</div>
+		<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px 0px;">
+			<h2> {{ channel_info.channel_name }}의 영상 댓글에서 <br> 가장 많이 언급된 키워드</h2>
+			<img src="{% static comment_wordcloud_path %}" style="width: 100%; max-width: 600px;">
+		</div>
+		<div style="flex: 1; padding: 0px 0px;">
+			<h2> {{ channel_info.channel_name }}의 영상 댓글 좋아요 Top 3</h2>
+			<ol style="display: flex; flex-direction: column; align-items: stretch;">
 				{% for comment in top_comments %}
-					<li>
-						<div class="comment-container">
-							<p class="comment-content">{{ comment.content }}</p>
-							<p class="comment-like-count">👍 {{ comment.like_count }}</p>
-						</div>
-					</li>
-				{% endfor %}
-				</ol>
+				<li>
+				<div class="comment-container">
+					<p class="comment-content">{{ comment.content }}</p>
+					<p class="comment-like-count">👍 {{ comment.like_count }}</p>
+				</div>
+			</li>
+			{% endfor %}
+			</ol>
 			</div>
 		</div>
-	</section>	
+	</section>
 	<section id="section">
 		<h2>{{ channel_info.channel_name }} 채널의 인기 동영상</h2>
 		<div class="video-grid">
 			{% for video in top_videos %}
 			<div class="video">
-				<a href="{{ video.video_url }}" target="_blank">
+				<a  id="a" href="{{ video.video_url }}" target="_blank">
 					<img src="{{ video.video_thumbnail }}" class="video-thumbnail">
 				</a>
 				<div class="video-info">
-					<a href="{{ video.video_url }}" target="_blank" class="card-title stretched-link">
+					<a  id="a" href="{{ video.video_url }}" target="_blank" class="card-title stretched-link">
 						<h5 class="video-title">{{ video.video_title }}</h5>
 					</a>
 					<div class="video-stats">

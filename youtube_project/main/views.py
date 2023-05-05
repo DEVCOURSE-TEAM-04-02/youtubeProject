@@ -126,6 +126,9 @@ def detail(request, channel_id):
     #채널ID를 통해 조회한 비디오 중 조회 수가 높은 것 네 개
     top_videos = TbVideoInfo.objects.filter(channel_id=channel_id).order_by('-view_count')[:4]
     
+    comment_wordcloud_path = 'img/wordcloud/{}_COMMENT_WORDCLOUD.png'.format(channel_id)
+    title_wordcloud_path = 'img/wordcloud/{}_TITLE_WORDCLOUD.png'.format(channel_id)
+    
     '''
     #wordcloud 생성
     with connection.cursor() as cursor:
@@ -138,7 +141,7 @@ def detail(request, channel_id):
         
     img_path = get_channel_wordCloud(query_result, channel_id)    
     '''
-    context = {'channel_info': channel_info, 'top_comments': top_comments, 'top_videos': top_videos}
+    context = {'channel_info': channel_info, 'top_comments': top_comments, 'top_videos': top_videos, 'title_wordcloud_path':title_wordcloud_path, 'comment_wordcloud_path':comment_wordcloud_path}
     return render(request, 'main/detail.html', context)
 
 '''

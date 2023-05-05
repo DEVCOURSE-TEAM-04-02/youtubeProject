@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="UTF-8"/>
-	<title>sample</title>
+	<title>YoutubeCrawling</title>
 
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">	
 
@@ -24,7 +24,7 @@
 </head>
 <body>
 	<header>
-		<a href="animal.html">YoutubeCrawling</a>
+		<a  id="a" href="animal.html">YoutubeCrawling</a>
 	</header>
 	<nav>
 		<a id="c2" href="animal.html">동물</a>
@@ -39,7 +39,7 @@
 				<h2>영향력이 큰 채널 (총 구독자 순)</h2>
 				<ol>
 					{% for channel in sort_subscribers_channels %}
-					<li> <a href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					<li> <a  id="a" href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
 					{% endfor %}
 				</ol>
 			</section>
@@ -47,7 +47,7 @@
 				<h2>영향력이 큰 채널 (총 조회수 순)</h2>
 				<ol>
 					{% for channel in sort_viewCount_channels %}
-					<li> <a href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					<li> <a  id="a" href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
 					{% endfor %}
 				</ol>
 			</section>
@@ -55,7 +55,7 @@
 				<h2>영향력이 큰 채널 (총 좋아요 순)</h2>
 				<ol>
 					{% for channel in sort_like_channels %}
-					<li> <a href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
+					<li> <a  id="a" href="{% url 'main:detail' channel.channel_id %}">{{channel.channel_name}} </a></li>
 					{% endfor %}
 				</ol>
 			</section>
@@ -63,24 +63,8 @@
 		<div>
 			<section id="section">
 				<h2>그래프</h2>
-				<input type="radio" id="tab-1" name="show" checked/>
-				<input type="radio" id="tab-2" name="show" />
-				<input type="radio" id="tab-3" name="show" />
-				<div class="tab">
-					<label for="tab-1">일별</label>
-					<label for="tab-2">주별</label>
-					<label for="tab-3">월별</label>
-				</div>
 				<div class="content">
-					<div class="content-dis">
-						<img src="{% static 'img/graph/MOVIE/MOVIE_CHANNEL_YOUTUBER_GRAPH.png' %}" style="width: 100%;">
-					</div>
-					<div class="content-dis">
-						<img src="{% static 'img/graph/MOVIE/MOVIE_CHANNEL_YOUTUBER_GRAPH.png' %}" style="width: 100%;">
-					</div>
-					<div class="content-dis">
-						<img src="{% static 'img/graph/MOVIE/MOVIE_CHANNEL_YOUTUBER_GRAPH.png' %}" style="width: 100%;">
-					</div>
+					<img src="{% static 'img/graph/MOVIE/MOVIE_CHANNEL_YOUTUBER_GRAPH.png' %}" style="width: 100%;">
 				</div>
 			</section>
 		</div>
@@ -101,11 +85,11 @@
 			<div class="video-grid">
 				{% for video in hot_videos %}
 				<div class="video">
-					<a href="{{ video.video_url }}" target="_blank">
+					<a  id="a" href="{{ video.video_url }}" target="_blank">
 						<img src="{{ video.video_thumbnail }}" class="video-thumbnail">
 					</a>
 					<div class="video-info">
-						<a href="{{ video.video_url }}" target="_blank" class="card-title stretched-link">
+						<a  id="a" href="{{ video.video_url }}" target="_blank" class="card-title stretched-link">
 							<h5 class="video-title">{{ video.video_title }}</h5>
 						</a>
 						<div class="video-stats">
