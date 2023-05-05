@@ -19,10 +19,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+import main.views
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('main/', include('main.urls')),
+    path("admin/", admin.site.urls),
+    path("", main.views.animal, name='animal'),
+    path("animal.html", main.views.animal, name='animal'),
+    path("movie.html", main.views.movie, name='movie'),
+    path("game.html", main.views.game, name='game'),
+    path("sport.html", main.views.sport, name='sport'),
+    path("food.html", main.views.food, name='food'),
+    path("detail.html", main.views.detail, name='detail'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
