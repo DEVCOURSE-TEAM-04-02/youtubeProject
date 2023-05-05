@@ -84,6 +84,7 @@ DATABASES = {
     }
 }
 '''
+import sys
 
 DATABASES = {
     'default': {
@@ -96,7 +97,6 @@ DATABASES = {
         'OPTIONS':{ 'charset' : "utf8mb4"},
     }
 }
-
 
 
 # Password validation
